@@ -1,4 +1,5 @@
 module basis;
+import basis::bindings;
 
 // Note! Keep this in sync with the C++ side.
 constdef LibraryType : uint
@@ -23,7 +24,7 @@ constdef BasisInitFlags : uint
 {
     NONE            = 0,
     BIND_GOOFY      = 1 << 0,
-    BIND_TIMBRE     = 1 << 1,
+    BIND_BYPROD     = 1 << 1,
     BIND_NEMO       = 1 << 2,
     BIND_MERLIN     = 1 << 3,
     BIND_TRAMPOLINE = 1 << 4,
@@ -55,7 +56,7 @@ fn BasisInitFlags basisInit(InteropTypedPtr libCppPtr) @export("basisInit")
     // By default we bind everything.
     // TODO: Make this adjustable, eg. using zig build system options.
     // flags |= BIND_GOOFY;
-    // flags |= BIND_TIMBRE;
+    // flags |= BIND_BYPROD;
     // flags |= BIND_NEMO;
     // flags |= BIND_MERLIN;
     // flags |= BIND_TRAMPOLINE;
@@ -666,4 +667,28 @@ fn void physics_onCollisionCallback(CppPtr sceneIntPtr, InteropCollisionData* in
 //     }
 
 //     basis.physics.physics_scene._onCollisionCallback(sceneIntPtr, &collisionData);
+}
+
+fn void cFactory_captureState(IntPtr64 factoryInterfaceIntPtr, IntPtr64 componentIntPtr, InteropBuffer* stateData) @export("CFactory_captureState")
+{
+}
+
+fn void cFactory_restoreState(IntPtr64 factoryInterfaceIntPtr, IntPtr64 componentIntPtr, InteropString* stateData) @export("CFactory_restoreState")
+{
+}
+
+fn void cGlobalSystem_captureState(IntPtr64 globalSystemIntPtr, InteropBuffer* stateData) @export("CGlobalSystem_captureState")
+{
+}
+
+fn void cGlobalSystem_restoreState(IntPtr64 globalSystemIntPtr, InteropString* stateData) @export("CGlobalSystem_restoreState")
+{
+}
+
+fn void cFactory_getAngelScriptPreface(IntPtr64 factoryInterfaceIntPtr, IntPtr64 componentIntPtr, InteropBuffer* outBuffer) @export("CFactory_getAngelScriptPreface")
+{
+}
+
+fn void cFactory_appendAngelScriptMethodAutoCompleteItems(IntPtr64 factoryInterfaceIntPtr, IntPtr64 componentIntPtr, IntPtr vectorPtr) @export("CFactory_appendAngelScriptMethodAutoCompleteItems")
+{
 }

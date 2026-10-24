@@ -1,4 +1,5 @@
 module basis;
+import basis::bindings;
 
 import std::collections::list;
 

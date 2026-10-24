@@ -1,4 +1,5 @@
-module basis;
+module basis::bindings;
+import basis;
 
 alias Callback = fn void(int value);
 
@@ -15,6 +16,7 @@ alias FP_i32_IntPtr_IntPtr_u32 = fn int(IntPtr, IntPtr, uint);
 alias FP_i32_IntPtr_IntPtr_u32_Vec3_Vec3 = fn int(IntPtr, IntPtr, uint, InteropVec3*, InteropVec3*);
 alias FP_i32_IntPtr_IntPtr64_u32 = fn int(IntPtr, IntPtr, uint);
 alias FP_i32_IntPtr_IntPtr64_u32_Vec3_Vec3 = fn int(IntPtr, IntPtr, uint, InteropVec3*, InteropVec3*);
+alias ImguiPlotMultiLinesGetter = fn float(IntPtr64, int);
 // Add more here...
 
 alias ComponentRegCallback = fn void(
@@ -105,6 +107,13 @@ struct PhysicsInteropRayCastResult
     uptr hitGameObjectCppPtr;
     uptr hitPhysicsActorCppPtr;
     uint hitPhysicsActorType;
+}
+
+struct PhysicsInteropOverlapResult
+{
+    uptr gameObjectCppPtr;
+    uptr physicsActorCppPtr;
+    uint physicsActorType;
 }
 
 struct RendererInteropRayCastResult
@@ -290,6 +299,17 @@ struct InteropVehStateInfo
     bool hasStickyTires;
 }
 
+struct InteropVehDynamicState
+{
+    float[8] wheelRotationSpeeds;
+    float[8] wheelRotationAngles;
+    float engineRotationSpeed;
+    int currentGear;
+    int targetGear;
+    float gearSwitchTime;
+    float autoBoxSwitchTime;
+}
+
 struct InteropVehWheelStateInfo
 {
     InteropVec3 localPos;
@@ -322,6 +342,10 @@ struct InteropCollisionData
 {
     CppPtr shape0;
     CppPtr shape1;
+    CppPtr actor0;
+    CppPtr actor1;
+    uint actor0Type;
+    uint actor1Type;
     InteropCollisionPoint[MAX_COLLISION_POINT_COUNT] collisionPoints;
     uint collisionPointCount;
 }

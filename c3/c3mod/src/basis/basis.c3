@@ -1,4 +1,5 @@
 module basis;
+import basis::bindings;
 
 alias IntPtr = uptr;
 alias IntPtr64 = ulong;
@@ -11,6 +12,6 @@ macro printf(...)
 	{
 		String str = string::tformat(...$vaarg);
 		InteropString is = { str, str.len };
-		funcPtr_Core_printOnHost(&is);
+		api::core_printOnHost(&is);
 	}; // Temp allocator reset
 }

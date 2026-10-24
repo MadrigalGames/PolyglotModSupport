@@ -1,4 +1,5 @@
 module basis;
+import basis::bindings;
 
 constdef ComponentFlags : uint
 {

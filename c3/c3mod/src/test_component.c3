@@ -41,7 +41,7 @@ fn void TestComponent.onObjectCreated(&self)
 	// basis::printf("--TestComponent onObjectCreated, name: \"%s\"--\n", name);
 
 	uint physicsActorType;
-	basis::funcPtr_ComponentContext_getPhysicsActor(self.cppContextPtr, &self.physicsActor, &physicsActorType);
+	api::componentContext_getPhysicsActor(self.cppContextPtr, &self.physicsActor, &physicsActorType);
 }
 
 fn void TestComponent.destroy(&self)
@@ -61,10 +61,10 @@ fn void TestComponent.preTick(&self, float tickDeltaTime)
 		self.upwards = !self.upwards;
 	}
 
-	basis::InteropVec3 force = {0.0f, self.upwards ? 500.0f : -500.0f, 0.0f};
-	basis::InteropVec3 pos = {0.0f, 0.0f, 0.0f};
+	InteropVec3 force = {0.0f, self.upwards ? 500.0f : -500.0f, 0.0f};
+	InteropVec3 pos = {0.0f, 0.0f, 0.0f};
 
-	basis::funcPtr_ComponentContext_getPosition(self.cppContextPtr, &pos);
+	api::componentContext_getPosition(self.cppContextPtr, &pos);
 
-	basis::funcPtr_PhysicsActor_addForce(self.physicsActor, &force, &pos, 1);
+	api::physicsActor_addForce(self.physicsActor, &force, &pos, 1);
 }
