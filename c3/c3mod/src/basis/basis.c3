@@ -9,7 +9,7 @@ macro printf(...)
 {
 	@pool()
 	{
-		String str = string::tformat($vasplat);
+		String str = string::tformat(...$vaarg);
 		InteropString is = { str, str.len };
 		funcPtr_Core_printOnHost(&is);
 	}; // Temp allocator reset
