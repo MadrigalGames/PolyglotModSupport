@@ -3,7 +3,7 @@ import basis;
 
 fn void registerTestComponent(ComponentRegCallback callback)
 {
-	basis::initComponentType{TestComponent}(
+	basis::components::initComponentType{TestComponent}(
 		"c3.TestComponent",
 		"GameObjectComponent",
 		50,

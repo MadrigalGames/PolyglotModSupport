@@ -23,5 +23,5 @@ fn void initLibrary(ComponentRegCallback callback) @export("initLibrary")
 fn void deinitLibrary() @export("deinitLibrary")
 {
     // basis.app.destroy(means.app);
-    basis::deinitComponentTypes();
+    basis::components::deinitComponentTypes();
 }

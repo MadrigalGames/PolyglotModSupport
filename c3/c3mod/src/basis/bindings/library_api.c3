@@ -1,5 +1,6 @@
 module basis;
 import basis::bindings;
+import basis::component_factory;
 import std::core::mem::allocators;
 
 // Note! Keep this in sync with the C++ side.
@@ -134,8 +135,8 @@ fn void playerController_onMessageReceived(IntPtr64 playerControllerInterfaceInt
 
 fn IntPtr64 cFactory_newComponent(IntPtr64 factoryInterfaceIntPtr, InteropTypedPtr cppContextPtr, bool onClient) @export("CFactory_newComponent")
 {
-	IComponentFactory* iface = (IComponentFactory*)factoryInterfaceIntPtr;
-	return iface.newComponent(cppContextPtr, onClient);
+	ComponentFactoryInterface* iface = (ComponentFactoryInterface*)factoryInterfaceIntPtr;
+	return (IntPtr64)iface.newComponent(cppContextPtr, onClient);
 
     // var factoryInterfacePtr = castIntPtr(ComponentFactoryInterface, factoryInterfaceIntPtr);
     // const componentIntPtr = factoryInterfacePtr.newComponent(cppContextPtr, onClient);
@@ -153,8 +154,8 @@ fn IntPtr64 cFactory_newComponent(IntPtr64 factoryInterfaceIntPtr, InteropTypedP
 
 fn void cFactory_deleteComponent(IntPtr64 factoryInterfaceIntPtr, bool onClient, IntPtr64 componentIntPtr) @export("CFactory_deleteComponent")
 {
-	IComponentFactory* iface = (IComponentFactory*)factoryInterfaceIntPtr;
-	iface.deleteComponent(onClient, componentIntPtr);
+	ComponentFactoryInterface* iface = (ComponentFactoryInterface*)factoryInterfaceIntPtr;
+	iface.deleteComponent(onClient, (IntPtr)componentIntPtr);
 
     // var factoryInterfacePtr = castIntPtr(ComponentFactoryInterface, factoryInterfaceIntPtr);
     // const compIntPtr = basis.bindings.libIntPtrFromHost(componentIntPtr);
@@ -163,7 +164,7 @@ fn void cFactory_deleteComponent(IntPtr64 factoryInterfaceIntPtr, bool onClient,
 
 fn void cFactory_updateComponents(IntPtr64 factoryInterfaceIntPtr, bool onClient, float deltaTime) @export("CFactory_updateComponents")
 {
-	IComponentFactory* iface = (IComponentFactory*)factoryInterfaceIntPtr;
+	ComponentFactoryInterface* iface = (ComponentFactoryInterface*)factoryInterfaceIntPtr;
 	iface.update(onClient, deltaTime);
     //var factoryInterfacePtr = castIntPtr(ComponentFactoryInterface, factoryInterfaceIntPtr);
     //factoryInterfacePtr.update(onClient, deltaTime);
@@ -171,7 +172,7 @@ fn void cFactory_updateComponents(IntPtr64 factoryInterfaceIntPtr, bool onClient
 
 fn void cFactory_preTickComponents(IntPtr64 factoryInterfaceIntPtr, bool onClient, float tickDeltaTime) @export("CFactory_preTickComponents")
 {
-	IComponentFactory* iface = (IComponentFactory*)factoryInterfaceIntPtr;
+	ComponentFactoryInterface* iface = (ComponentFactoryInterface*)factoryInterfaceIntPtr;
 	iface.preTick(onClient, tickDeltaTime);
     //var factoryInterfacePtr = castIntPtr(ComponentFactoryInterface, factoryInterfaceIntPtr);
     //factoryInterfacePtr.preTick(onClient, tickDeltaTime);
@@ -179,7 +180,7 @@ fn void cFactory_preTickComponents(IntPtr64 factoryInterfaceIntPtr, bool onClien
 
 fn void cFactory_tickComponents(IntPtr64 factoryInterfaceIntPtr, bool onClient, float tickDeltaTime) @export("CFactory_tickComponents")
 {
-	IComponentFactory* iface = (IComponentFactory*)factoryInterfaceIntPtr;
+	ComponentFactoryInterface* iface = (ComponentFactoryInterface*)factoryInterfaceIntPtr;
 	iface.tick(onClient, tickDeltaTime);
     //var factoryInterfacePtr = castIntPtr(ComponentFactoryInterface, factoryInterfaceIntPtr);
     //factoryInterfacePtr.tick(onClient, tickDeltaTime);
@@ -306,24 +307,24 @@ fn void cFactory_registerAngelScript(
 
 fn void cFactory_create(IntPtr64 factoryInterfaceIntPtr, IntPtr64 componentIntPtr) @export("CFactory_create")
 {
-	IComponentFactory* iface = (IComponentFactory*)factoryInterfaceIntPtr;
-	iface.create(componentIntPtr);
+	ComponentFactoryInterface* iface = (ComponentFactoryInterface*)factoryInterfaceIntPtr;
+	iface.create((IntPtr)componentIntPtr);
 //     var factoryInterfacePtr = castIntPtr(ComponentFactoryInterface, factoryInterfaceIntPtr);
 //     factoryInterfacePtr.create(basis.bindings.libIntPtrFromHost(componentIntPtr));
 }
 
 fn void cFactory_onObjectCreated(IntPtr64 factoryInterfaceIntPtr, IntPtr64 componentIntPtr) @export("CFactory_onObjectCreated")
 {
-	IComponentFactory* iface = (IComponentFactory*)factoryInterfaceIntPtr;
-	iface.onObjectCreated(componentIntPtr);
+	ComponentFactoryInterface* iface = (ComponentFactoryInterface*)factoryInterfaceIntPtr;
+	iface.onObjectCreated((IntPtr)componentIntPtr);
 //     var factoryInterfacePtr = castIntPtr(ComponentFactoryInterface, factoryInterfaceIntPtr);
 //     factoryInterfacePtr.onObjectCreated(basis.bindings.libIntPtrFromHost(componentIntPtr));
 }
 
 fn void cFactory_drawEditor(IntPtr64 factoryInterfaceIntPtr, IntPtr64 componentIntPtr, bool selected, bool hoveredOver) @export("CFactory_drawEditor")
 {
-	IComponentFactory* iface = (IComponentFactory*)factoryInterfaceIntPtr;
-	iface.drawEditor(componentIntPtr, selected, hoveredOver);
+	ComponentFactoryInterface* iface = (ComponentFactoryInterface*)factoryInterfaceIntPtr;
+	iface.drawEditor((IntPtr)componentIntPtr, selected, hoveredOver);
 //     var factoryInterfacePtr = castIntPtr(ComponentFactoryInterface, factoryInterfaceIntPtr);
 //     factoryInterfacePtr.drawEditor(basis.bindings.libIntPtrFromHost(componentIntPtr), selected, hoveredOver);
 }

@@ -1,5 +1,7 @@
-module basis;
+module basis::components;
+import basis;
 import basis::bindings;
+import basis::component_factory;
 
 constdef ComponentFlags : uint
 {
@@ -18,8 +20,8 @@ constdef ComponentFlags : uint
 
 // Keep a list of all factory interface pointers here. We currently support
 // up to 200 factories on the c++ side, so let's do the same here.
-IComponentFactory[200] gFactoryInterfacePointers;
-uint gFactoryInterfaceCount = 0;
+ComponentFactoryInterface*[200] factoryInterfacePointers;
+sz factoryInterfaceCount = 0;
 
 fn void initComponentType(
 	String componentTypeName,
@@ -27,8 +29,8 @@ fn void initComponentType(
 	uint updateSortingKey,
 	ComponentRegCallback callback) <ComponentType>
 {
-	ComponentFactory{ComponentType}* factory = mem::new(ComponentFactory{ComponentType});
-	factory.init();
+	GameObjectComponentFactory{ComponentType}* factory = mem::new(GameObjectComponentFactory{ComponentType});
+	factory.init(factoryInterfaceCount);
 
 	InteropString typeName = basis::toInteropString(componentTypeName);
 	StringHash typeNameHash = basis::makeStringHash(componentTypeName);
@@ -79,10 +81,10 @@ fn void initComponentType(
 
     uptr factoryIfaceIntPtr = (uptr)&factory.iface;
 
-    gFactoryInterfacePointers[gFactoryInterfaceCount] = factory.iface;
-    gFactoryInterfaceCount += 1;
+    factoryInterfacePointers[factoryInterfaceCount] = &factory.iface;
+    factoryInterfaceCount += 1;
 
-	InteropTypedPtr libCppPtr = getLibCppPtr();
+	InteropTypedPtr libCppPtr = basis::getLibCppPtr();
 
 	callback(
 		libCppPtr,
@@ -97,8 +99,9 @@ fn void initComponentType(
 
 fn void deinitComponentTypes()
 {
-	for (uint i = 0; i < gFactoryInterfaceCount; ++i)
+	for (sz i = 0; i < factoryInterfaceCount; ++i)
 	{
-		gFactoryInterfacePointers[i].deinit();
+		factoryInterfacePointers[i].deinit();
 	}
+	factoryInterfaceCount = 0;
 }
