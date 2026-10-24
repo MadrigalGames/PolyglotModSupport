@@ -9,6 +9,11 @@ fn void core_printOnHost(InteropString* str)
 	basis::bindings::funcPtr_Core_printOnHost(str);
 }
 
+fn void componentContext_getName(InteropTypedPtr thisPtr, InteropString* str)
+{
+	basis::bindings::funcPtr_ComponentContext_getName(thisPtr, str);
+}
+
 fn void componentContext_getPosition(InteropTypedPtr thisPtr, InteropVec3* returnValue)
 {
 	basis::bindings::funcPtr_ComponentContext_getPosition(thisPtr, returnValue);

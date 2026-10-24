@@ -1,5 +1,6 @@
 module basis;
 import basis::bindings;
+import std::core::mem::allocators;
 
 // Note! Keep this in sync with the C++ side.
 constdef LibraryType : uint
@@ -84,6 +85,18 @@ fn BasisInitFlags basisInit(InteropTypedPtr libCppPtr) @export("basisInit")
 // export fn basisDeinit() void {
 //     // Any cleanup to do?
 // }
+
+// Called on the server thread itself.
+// The temp allocator is only created implicitly on the thread that loaded the library.
+fn void onServerThreadStarted() @export("onServerThreadStarted")
+{
+	allocators::auto_create_temp = true;
+}
+
+fn void onServerThreadExiting() @export("onServerThreadExiting")
+{
+	allocators::destroy_temp_allocators();
+}
 
 // App / Mod controller:
 

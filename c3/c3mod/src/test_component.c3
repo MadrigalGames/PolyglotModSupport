@@ -36,7 +36,7 @@ fn void TestComponent.onObjectCreated(&self)
 	//String name = self.context.getName(); // <-- We want this API
 
 	// InteropString is;
-	// basis::funcPtr_ComponentContext_getName(self.cppContextPtr, &is);
+	// api::componentContext_getName(self.cppContextPtr, &is);
 	// String name = basis::fromInteropString(&is);
 	// basis::printf("--TestComponent onObjectCreated, name: \"%s\"--\n", name);
 

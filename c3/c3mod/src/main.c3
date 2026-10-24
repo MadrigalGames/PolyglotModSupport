@@ -4,7 +4,7 @@ import basis;
 import std::io;
 
 // TODO: Move these into their proper places.
-const uint BASIS_API_VERSION_NUMBER = 4;
+const uint BASIS_API_VERSION_NUMBER = 5;
 const uint MEANSLIB_API_VERSION_NUMBER = 2;
 
 fn uint getVersionNumber(uint versionNumberType) @export("getVersionNumber")
