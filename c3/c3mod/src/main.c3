@@ -16,6 +16,8 @@ fn void initLibrary(ComponentRegCallback callback) @export("initLibrary")
 {
     //means.app = basis.app.create(means.MeansApp, meansAllocator);
 
+	basis::global_data::create(mem);
+
 	registerTestComponent(callback);
 	// More components go here...
 }
@@ -24,4 +26,5 @@ fn void deinitLibrary() @export("deinitLibrary")
 {
     // basis.app.destroy(means.app);
     basis::components::deinitComponentTypes();
+    basis::global_data::destroy();
 }

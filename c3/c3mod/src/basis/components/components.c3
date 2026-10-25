@@ -3,7 +3,7 @@ import basis;
 import basis::bindings;
 import basis::component_factory;
 
-constdef ComponentFlags : uint
+constset ComponentFlags : uint
 {
     NONE = 0,
     HAS_UPDATE = (1 << 0),
@@ -18,10 +18,13 @@ constdef ComponentFlags : uint
     HAS_EDITOR_STATE = (1 << 9),
 }
 
-// Keep a list of all factory interface pointers here. We currently support
-// up to 200 factories on the c++ side, so let's do the same here.
-ComponentFactoryInterface*[200] factoryInterfacePointers;
-sz factoryInterfaceCount = 0;
+struct GlobalData
+{
+	// Keep a list of all factory interface pointers here. We currently support
+	// up to 200 factories on the c++ side, so let's do the same here.
+	ComponentFactoryInterface*[200] factoryInterfacePointers;
+	sz factoryInterfaceCount;
+}
 
 fn void initComponentType(
 	String componentTypeName,
@@ -30,7 +33,7 @@ fn void initComponentType(
 	ComponentRegCallback callback) <ComponentType>
 {
 	GameObjectComponentFactory{ComponentType}* factory = mem::new(GameObjectComponentFactory{ComponentType});
-	factory.init(factoryInterfaceCount);
+	factory.init(basis::g.components.factoryInterfaceCount);
 
 	InteropString typeName = basis::toInteropString(componentTypeName);
 	StringHash typeNameHash = basis::makeStringHash(componentTypeName);
@@ -81,8 +84,8 @@ fn void initComponentType(
 
     uptr factoryIfaceIntPtr = (uptr)&factory.iface;
 
-    factoryInterfacePointers[factoryInterfaceCount] = &factory.iface;
-    factoryInterfaceCount += 1;
+    basis::g.components.factoryInterfacePointers[basis::g.components.factoryInterfaceCount] = &factory.iface;
+    basis::g.components.factoryInterfaceCount += 1;
 
 	InteropTypedPtr libCppPtr = basis::getLibCppPtr();
 
@@ -99,9 +102,9 @@ fn void initComponentType(
 
 fn void deinitComponentTypes()
 {
-	for (sz i = 0; i < factoryInterfaceCount; ++i)
+	for (sz i = 0; i < basis::g.components.factoryInterfaceCount; ++i)
 	{
-		factoryInterfacePointers[i].deinit();
+		basis::g.components.factoryInterfacePointers[i].deinit();
 	}
-	factoryInterfaceCount = 0;
+	basis::g.components.factoryInterfaceCount = 0;
 }

@@ -1,10 +1,13 @@
 module basis;
 import basis::bindings;
+import basis::global_data;
 
 alias IntPtr = uptr;
 alias IntPtr64 = ulong;
 alias CppPtr = ulong;
 alias WasmFuncPtr = uint;
+
+LibraryGlobalData* g;
 
 macro printf(...)
 {

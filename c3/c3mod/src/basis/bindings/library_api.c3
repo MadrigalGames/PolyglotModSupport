@@ -4,7 +4,7 @@ import basis::component_factory;
 import std::core::mem::allocators;
 
 // Note! Keep this in sync with the C++ side.
-constdef LibraryType : uint
+constset LibraryType : uint
 {
     UNKNOWN = 0,
     NATIVE_DYNAMIC_LIBRARY = 1,
@@ -22,7 +22,7 @@ constdef LibraryType : uint
 
 
 // Note! Keep this in sync with the C++ side.
-constdef BasisInitFlags : uint
+constset BasisInitFlags : uint
 {
     NONE            = 0,
     BIND_GOOFY      = 1 << 0,
